@@ -28,4 +28,4 @@ You can use parameters to modify the output (like `mkdice -l 5 -sxd _`)\
 `-s` silent, the passphrase will not be returned to the terminal (standard output)\
 `-z` the passphrase will be shown with zenity information (if available)\
 \
-***Its most handy to make a keyboard shortcut for your preffered command and use it with -x or -z to have the passphrase available.***
+***Its most handy to create a keyboard shortcut for your preffered command and use it with -x or -z to have the passphrase available.***
