@@ -9,14 +9,9 @@
 #// That means, this script suits only for mid-level passwords.
 
 #// PREPERATION
-#// You first need to move the provided wordlists to ~/.diceware. So 
-#// just use command "cp wordlists ~/.diceware". You 
-#// can read more about the eff wordlists here: 
-#// https://www.eff.org/de/deeplinks/2016/07/new-wordlists-random-passphrases
-#// You can also use other wordlists and replace the path in the script
-#// or use the parameter -f when using mkdice.
-#// Then put this scriptfile to ~/bin or where ever you store your custom 
-#// scripts
+#// use command "mv .diceware_wordlists ~/" within the script folder
+#// to move the wordlists files to a central place in home folder. They
+#// are read from this place by default. That can be changed with -F
 
 #// USING
 #// command 'mkdice' in terminal returns a 3 word passphrase
@@ -24,7 +19,8 @@
 #// You can use parameters to modify the output (like 'mkdice -l 5 -sxd _')
 #//
 #// -l length of the passphrase, number of words used (default '3')
-#// -f used diceware list (default '~/.diceware/eff_large_wordlist.txt')
+#// -F full path to used diceware list
+#// -f filename of used diceware list within default folder ~/.diceware_wordlists
 #// -r source of the entropy to choose random words (default '/dev/urandom')
 #// -d delimiter between the words (default '-')
 #// -D delimiter between the words in the clipboard (default same as -d)
@@ -39,7 +35,8 @@
 
 #parameters
 LENGTH=3
-FILE=~/.diceware/eff_large_wordlist.txt
+PATH_WORDLISTS=~/.diceware_wordlists
+FILE=$PATH_WORDLISTS/eff_large_wordlist.txt
 RANDOMSOURCE=/dev/urandom
 XCOPY=false
 SILENT=false
@@ -53,7 +50,8 @@ do
  case "${option}"
  in
    l) LENGTH=$OPTARG;;
-   f) FILE=$OPTARG;;
+   F) FILE=$OPTARG;;
+   f) FILE=$PATH_WORDLISTS/$OPTARG;;
    r) RANDOMSOURCE=$OPTARG;;
    x) XCOPY=true;;
    s) SILENT=true;;
