@@ -1,7 +1,7 @@
 # mkdice
 
 Create diceware like passwords from terminal. Possible to use them with keyboard shortcut.
-You choose from arbitrary diceware wordlists, some are already provided within the repo.
+You may choose from arbitrary diceware wordlists, some are already provided within the repo.
 
 ### Preperation
 Put the file `mkdice` to your local `~/bin` folder or wherever you have your custom scripts stored in.\
