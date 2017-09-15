@@ -1,0 +1,111 @@
+#!/bin/bash
+
+#// IMPORTANT INFO
+#// ! Be aware that this script works against the idea of diceware 
+#// because it does not use the real randomness of an analogue dice 
+#// but rests on computer pseudo randomness. Thats why the standard 
+#// length is set to 3 words, what is not enough for an offline-attack-
+#// secure passphrase, but might be ok for several online portals.
+#// That means, this script suits only for mid-level passwords.
+
+#// PREPERATION
+#// You first need to move the provided wordlists to ~/.diceware. So 
+#// just use command "cp wordlists ~/.diceware". You 
+#// can read more about the eff wordlists here: 
+#// https://www.eff.org/de/deeplinks/2016/07/new-wordlists-random-passphrases
+#// You can also use other wordlists and replace the path in the script
+#// or use the parameter -f when using mkdice.
+#// Then put this scriptfile to ~/bin or where ever you store your custom 
+#// scripts
+
+#// USING
+#// command 'mkdice' in terminal returns a 3 word passphrase
+#//
+#// You can use parameters to modify the output (like 'mkdice -l 5 -sxd _')
+#//
+#// -l length of the passphrase, number of words used (default '3')
+#// -f used diceware list (default '~/.diceware/eff_large_wordlist.txt')
+#// -r source of the entropy to choose random words (default '/dev/urandom')
+#// -d delimiter between the words (default '-')
+#// -D delimiter between the words in the clipboard (default same as -d)
+#// 
+#// -x the passphrase will also be available in the clipboard (paste it with strg+v)
+#// -U the first letter of each word will be Uppercase
+#// -s silent, the passphrase will not be returned to the terminal (standard output)
+#// -z the passphrase will be shown with zenity information (if available)
+
+#// Its most handy to make a keyboard shortcut for your preffered command and use it
+#// with -x or -z to have the passphrase available
+
+#parameters
+LENGTH=3
+FILE=~/.diceware/eff_large_wordlist.txt
+RANDOMSOURCE=/dev/urandom
+XCOPY=false
+SILENT=false
+DELIMITER="-"
+UPPERCASE=false
+ZENITY=false
+DELIMITER_XCOPY=false
+
+while getopts sUxzl:f:r:d:D: option
+do
+ case "${option}"
+ in
+   l) LENGTH=$OPTARG;;
+   f) FILE=$OPTARG;;
+   r) RANDOMSOURCE=$OPTARG;;
+   x) XCOPY=true;;
+   s) SILENT=true;;
+   d) DELIMITER=$OPTARG;;
+   U) UPPERCASE=true;;
+   z) ZENITY=true;;
+   D) DELIMITER_XCOPY=$OPTARG;;
+ esac
+done
+
+#set xcopy delimiter to normal delimiter
+if [ $DELIMITER_XCOPY = false ]; then
+  DELIMITER_XCOPY=$DELIMITER
+fi
+
+#loop the passphrase
+for i in $(seq 1 $LENGTH)
+do
+
+  #grab random line
+  line=$(sort -R --random-source=$RANDOMSOURCE $FILE | head -n 1)
+
+  #grab word from line
+  word=$(echo "$line"  | awk '{print $2}')
+
+  #make word first letter uppercase
+  if [ $UPPERCASE = true ]; then
+    word=${word^}
+  fi
+
+  #merge words to phrase
+  passphrase="$passphrase$DELIMITER$word"
+  passphrase_xcopy="$passphrase$DELIMITER_XCOPY$word"
+
+done
+
+#remove delimiter
+passphrase=${passphrase:${#DELIMITER}}
+passphrase_xcopy=${passphrase_xcopy:${#DELIMITER_XCOPY}}
+
+#put phrase to clipboard
+if [ $XCOPY = true ]; then
+  echo -n "$passphrase_xcopy" | xclip -selection c
+fi
+
+#return passphrase to output
+if [ $SILENT = false ]; then
+  echo $passphrase
+fi
+
+#show passphrase with zenity
+if [ $ZENITY = true ]; then
+  zenity --notification --text $passphrase
+fi
+
