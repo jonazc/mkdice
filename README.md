@@ -15,15 +15,15 @@ You dont need to do that, if you provide full path to wordlist with `-F`
 ### Using
 Command `mkdice` in terminal returns a 3 word passphrase
 
-You can use parameters to modify the output (like 'mkdice -l 5 -sxd _')\
-`-l` length of the passphrase, number of words used (default '3')\
+You can use parameters to modify the output (like `mkdice -l 5 -sxd _`)\
+`-l` length of the passphrase, number of words used (default `3`)\
 `-F` full path to used diceware list\
-`-f` filename of used diceware list within default folder ~/.diceware_wordlists\
-`-r` source of the entropy to choose random words (default '/dev/urandom')\
-`-d` delimiter between the words (default '-')\
-`-D` delimiter between the words in the clipboard (default same as -d)\
+`-f` filename of used diceware list within default folder `~/.diceware_wordlists`\
+`-r` source of the entropy to choose random words (default `/dev/urandom`)\
+`-d` delimiter between the words (default `-`)\
+`-D` delimiter between the words in the clipboard (default same as `-d`)\
 \
-`-x` the passphrase will also be available in the clipboard (paste it with strg+v)\
+`-x` the passphrase will also be available in the clipboard (paste it with `strg+v`)\
 `-U` the first letter of each word will be Uppercase\
 `-s` silent, the passphrase will not be returned to the terminal (standard output)\
 `-z` the passphrase will be shown with zenity information (if available)\
