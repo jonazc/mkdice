@@ -1,5 +1,6 @@
-Create diceware like passwords from terminal. Possible to use them with keyboard shortcut.
+# mkdice
 
+Create diceware like passwords from terminal. Possible to use them with keyboard shortcut.
 You choose from arbitrary diceware wordlists, some are already provided within the repo.
 
 ### Preperation
